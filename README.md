@@ -10,3 +10,4 @@ Yes I know Im sure there are better ways to write this program but I really dont
 
 TODO:
 add option to add throw location (Throw location is where to throw the snowball to power the lights)
+make option to bot coffee making (7 times)
