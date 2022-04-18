@@ -3,6 +3,7 @@ import pynput.mouse as ms
 from pynput.mouse import Listener
 import random
 import time
+from PIL import ImageGrab
 
 x1 = 0
 x2 = 0
@@ -10,9 +11,16 @@ y1 = 0
 y2 = 0
 throwX = 0
 throwY = 0
+cA = "(99, 77, 73)"
+cB = "(95, 73, 70)"
+cC = "(87, 67, 64)"
+cD = "(91, 70, 67)"
+cE = "(84, 64, 61)"
+cF = "(103, 80, 76)"
 
 mouse = ms.Controller()
 keyboard = kb.Controller()
+
 
 def on_click(x, y, button, pressed):
     global x1, x2, y1, y2
@@ -26,6 +34,7 @@ def on_click(x, y, button, pressed):
             x2 = x
             y2 = y
             print(str(x2) + " " + str(y2))
+            listener.stop()
             return False
     else:
         if y2 == 0:
@@ -33,57 +42,71 @@ def on_click(x, y, button, pressed):
         else:
             return False
 
- 
+
 with Listener(on_click=on_click) as listener:
     listener.join()
+
 
 def mouseClick():
     mouse.press(ms.Button.left)
     mouse.release(ms.Button.left)
 
+
 def moveAndClick():
     randomX = random.randint(x1, x2)
     randomY = random.randint(y1, y2)
-    mouse.position = (randomX, randomY)
-    print('Now we have moved it to {0}'.format(mouse.position))
-    mouseClick()
-    time.sleep(4)
+    image = ImageGrab.grab()
+    color = image.getpixel((randomX, randomY))
+    print(color)
+    if (str(color) == cA) or (str(color) == cB) or (str(color) == cC) or (str(color) == cD) or (str(color) == cE) or (str(color) == cF):
+        print("Matches Color!")
+        mouse.position = (randomX, randomY)
+        print('Moving to {0}'.format(mouse.position))
+        mouseClick()
+        time.sleep(4)
+    else:
+        print("Does not match color.")
+        moveAndClick()
+
 
 def dance():
-    danceTime = random.randint(10,15)
+    danceTime = random.randint(10, 15)
     keyboard.press('d')
     keyboard.release('d')
-    print('dancing for')
+    print('Dancing for')
     for x in range(danceTime, 0, -1):
         print(x)
         time.sleep(1)
 
+
 def throwBall():
     keyboard.press('t')
     keyboard.release('t')
-    mouse.position = (throwX,ThrowY)
+    mouse.position = (throwX, throwY)
     time.sleep(.5)
     mouseClick()
     time.sleep(.5)
 
+
 def throw():
-    throwTimes = random.randint(3,8)
+    throwTimes = random.randint(3, 8)
     for x in range(1, throwTimes, 1):
         print('throwing ' + str(x) + ' of ' + str(throwTimes) + ' times')
         throwBall()
 
-#Start
+
+# Start
 
 print('Starting script in ')
-for x in range(5,0,-1):
+for x in range(5, 0, -1):
     print(x)
     time.sleep(1)
 
 while 1 < 2:
     moveAndClick()
     dance()
-    canThrow = random.randint(1,3)
-    if 2 == 1:
-        throw()
-    else:
-        print('no throw')
+    # canThrow = random.randint(1, 3)
+    # if 2 == 1:
+    #    throw()
+    # else:
+    #    print('no throw')
