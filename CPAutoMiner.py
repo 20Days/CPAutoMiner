@@ -5,7 +5,6 @@ import random
 import time
 from PIL import ImageGrab
 
-xx = True
 x1 = 0
 x2 = 0
 y1 = 0
