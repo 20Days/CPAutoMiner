@@ -27,6 +27,9 @@ v_mode = input('Would you like to run this in verbose mode?(y/N)')
 
 if v_mode == 'y':
     verbose = True
+    print('Verbose mode was turned on')
+else:
+    verbose = False
 
 print('Please select the Top Left most point...')
 
