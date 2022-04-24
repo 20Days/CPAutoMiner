@@ -5,6 +5,7 @@ import random
 import time
 from PIL import ImageGrab
 
+xx = True
 x1 = 0
 x2 = 0
 y1 = 0
@@ -17,23 +18,32 @@ cC = "(87, 67, 64)"
 cD = "(91, 70, 67)"
 cE = "(84, 64, 61)"
 cF = "(103, 80, 76)"
+verbose = False
 
 mouse = ms.Controller()
 keyboard = kb.Controller()
 
+v_mode = input('Would you like to run this in verbose mode?(y/N)')
+
+if v_mode == 'y':
+    verbose = True
+
+print('Please select the Top Left most point...')
+
 
 def on_click(x, y, button, pressed):
     global x1, x2, y1, y2
-    print(x, y, button, pressed)
+
     if str(button) == "Button.left" and pressed == True:
         if x1 == 0 and y1 == 0:
             x1 = x
             y1 = y
-            print(str(x1) + " " + str(y1))
+            print('First cords: X: ' + str(x1) + " Y: " + str(y1))
+            print('Please now select the Bottom Right most point...')
         else:
             x2 = x
             y2 = y
-            print(str(x2) + " " + str(y2))
+            print('Second cords: X: ' + str(x2) + " Y: " + str(y2))
             listener.stop()
             return False
     else:
@@ -54,18 +64,27 @@ def mouseClick():
 
 def moveAndClick():
     randomX = random.randint(x1, x2)
-    randomY = random.randint(y1, y2)
+    if y1 < y2:
+        randomY = random.randint(y1, y2)
+        if verbose:
+            print('Y1 is less than Y2')
+    else:
+        randomY = random.randint(y2, y1)
+        if verbose:
+            print('Y1 is greater than than Y2')
     image = ImageGrab.grab()
     color = image.getpixel((randomX, randomY))
-    print(color)
-    if (str(color) == cA) or (str(color) == cB) or (str(color) == cC) or (str(color) == cD) or (str(color) == cE) or (str(color) == cF):
-        print("Matches Color!")
+    if (str(color) == cA) or (str(color) == cB) or (str(color) == cC) or (str(color) == cD) or (str(color) == cE) or (
+            str(color) == cF):
+        if verbose:
+            print("Matches Color!")
         mouse.position = (randomX, randomY)
         print('Moving to {0}'.format(mouse.position))
         mouseClick()
         time.sleep(4)
     else:
-        print("Does not match color.")
+        if verbose:
+            print("Does not match color.")
         moveAndClick()
 
 
